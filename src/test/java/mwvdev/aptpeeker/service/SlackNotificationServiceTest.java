@@ -1,7 +1,6 @@
 package mwvdev.aptpeeker.service;
 
 import mwvdev.aptpeeker.PackageTestData;
-import mwvdev.aptpeeker.configuration.SlackNotificationProperties;
 import mwvdev.aptpeeker.model.NotificationError;
 import mwvdev.aptpeeker.model.NotificationResult;
 import mwvdev.aptpeeker.model.SlackNotification;
