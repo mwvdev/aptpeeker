@@ -39,9 +39,9 @@ public class PackageControllerIntegrationTest {
         List<String> packages = PackageTestData.getPackages();
 
         NotificationResult expectedNotificationResult = new NotificationResult(true);
-        when(notificationService.sendNotification(packages)).thenReturn(expectedNotificationResult);
+        when(notificationService.sendNotification("server-name", packages)).thenReturn(expectedNotificationResult);
 
-        mvc.perform(post("/api/package/updates")
+        mvc.perform(post("/api/package/updates/{serverName}", "server-name")
                 .content(objectMapper.writeValueAsString(packages))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -51,9 +51,9 @@ public class PackageControllerIntegrationTest {
     @Test
     public void handleUpdates_WhenSendingNotificationFails_ReturnsInternalServerError() throws Exception {
         NotificationResult notificationResult = new NotificationResult(new NotificationError("notificationResult"));
-        when(notificationService.sendNotification(any())).thenReturn(notificationResult);
+        when(notificationService.sendNotification(any(), any())).thenReturn(notificationResult);
 
-        mvc.perform(post("/api/package/updates")
+        mvc.perform(post("/api/package/updates/{serverName}", "server-name")
                 .content(objectMapper.writeValueAsString(PackageTestData.getPackages()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -61,8 +61,17 @@ public class PackageControllerIntegrationTest {
     }
 
     @Test
+    public void handleUpdates_WhenEmptyServerName_ReturnsNotFound() throws Exception {
+        mvc.perform(post("/api/package/updates/{serverName}", "")
+                .content(objectMapper.writeValueAsString(PackageTestData.getPackages()))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void handleUpdates_WhenEmptyCollectionPostBody_ReturnsBadRequest() throws Exception {
-        mvc.perform(post("/api/package/updates")
+        mvc.perform(post("/api/package/updates/{serverName}", "server-name")
                 .content(objectMapper.writeValueAsString(new String[] {}))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -71,7 +80,7 @@ public class PackageControllerIntegrationTest {
 
     @Test
     public void handleUpdates_WhenEmptyStringPostBody_ReturnsBadRequest() throws Exception {
-        mvc.perform(post("/api/package/updates")
+        mvc.perform(post("/api/package/updates/{serverName}", "server-name")
                 .content("")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -80,7 +89,7 @@ public class PackageControllerIntegrationTest {
 
     @Test
     public void handleUpdates_WhenMissingPostBody_ReturnsBadRequest() throws Exception {
-        mvc.perform(post("/api/package/updates")
+        mvc.perform(post("/api/package/updates/{serverName}", "server-name")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }

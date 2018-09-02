@@ -6,5 +6,5 @@ import java.util.Collection;
 
 public interface NotificationService {
 
-    NotificationResult sendNotification(Collection<String> packages);
+    NotificationResult sendNotification(String serverName, Collection<String> packages);
 }

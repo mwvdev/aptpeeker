@@ -48,7 +48,7 @@ public class SlackNotificationServiceTest {
     public void canSendNotification() {
         when(restTemplate.postForEntity(eq(slackNotificationProperties.getEndpoint()), any(HttpEntity.class), eq(String.class))).thenReturn(ResponseEntity.ok().build());
 
-        NotificationResult notificationResult = notificationService.sendNotification(PackageTestData.getPackages());
+        NotificationResult notificationResult = notificationService.sendNotification("server-name", PackageTestData.getPackages());
 
         ArgumentCaptor<HttpEntity> entityCaptor = ArgumentCaptor.forClass(HttpEntity.class);
         verify(restTemplate).postForEntity(eq(slackNotificationProperties.getEndpoint()), entityCaptor.capture(), eq(String.class));
@@ -66,7 +66,7 @@ public class SlackNotificationServiceTest {
         SlackNotification slackNotification = (SlackNotification) entityBody;
 
         String expectedText =
-                "Updates are available for the following packages:\n\n" +
+                "Updates are available on `server-name` for the following packages:\n\n" +
                 "libsystemd0 229-4ubuntu21.2\n" +
                 "libpam-systemd 229-4ubuntu21.2\n" +
                 "systemd 229-4ubuntu21.2";
@@ -78,7 +78,7 @@ public class SlackNotificationServiceTest {
         String expectedMessage = "invalid_payload";
         when(restTemplate.postForEntity(any(String.class), any(), any())).thenReturn(ResponseEntity.badRequest().body(expectedMessage));
 
-        NotificationResult notificationResult = notificationService.sendNotification(PackageTestData.getPackages());
+        NotificationResult notificationResult = notificationService.sendNotification("server-name", PackageTestData.getPackages());
         assertThat(notificationResult, is(notNullValue()));
 
         NotificationError error = notificationResult.getError();

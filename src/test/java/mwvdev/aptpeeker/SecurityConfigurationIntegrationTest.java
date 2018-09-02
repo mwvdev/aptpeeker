@@ -46,9 +46,11 @@ public class SecurityConfigurationIntegrationTest
         TestRestTemplate restTemplate = getRestTemplateWithValidCredentials();
         HttpEntity<Collection<String>> entity = new HttpEntity<>(packages);
 
-        when(notificationService.sendNotification(packages)).thenReturn(new NotificationResult(true));
+        when(notificationService.sendNotification("server-name", packages)).thenReturn(new NotificationResult(true));
 
-        ResponseEntity response = restTemplate.withBasicAuth(securityProperties.getUser().getName(), securityProperties.getUser().getPassword()).postForEntity(getUri("api/package/updates"), entity, String.class);
+        ResponseEntity response = restTemplate
+                .withBasicAuth(securityProperties.getUser().getName(), securityProperties.getUser().getPassword())
+                .postForEntity(getUri("api/package/updates/server-name"), entity, String.class);
 
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
     }

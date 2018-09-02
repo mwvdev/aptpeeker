@@ -26,8 +26,8 @@ public class SlackNotificationService implements NotificationService {
     }
 
     @Override
-    public NotificationResult sendNotification(Collection<String> packages) {
-        SlackNotification slackNotification = new SlackNotification(composeMessage(packages));
+    public NotificationResult sendNotification(String serverName, Collection<String> packages) {
+        SlackNotification slackNotification = new SlackNotification(composeMessage(serverName, packages));
         HttpEntity<SlackNotification> entity = new HttpEntity<>(slackNotification);
 
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(slackNotificationProperties.getEndpoint(), entity, String.class);
@@ -39,8 +39,8 @@ public class SlackNotificationService implements NotificationService {
         return new NotificationResult(new NotificationError(responseEntity.getBody()));
     }
 
-    private String composeMessage(Collection<String> packages) {
-        return "Updates are available for the following packages:\n\n" +
+    private String composeMessage(String serverName, Collection<String> packages) {
+        return "Updates are available on `" + serverName + "` for the following packages:\n\n" +
                 String.join("\n", packages);
     }
 

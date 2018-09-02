@@ -5,10 +5,7 @@ import mwvdev.aptpeeker.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -23,14 +20,14 @@ public class PackageController {
         this.notificationService = notificationService;
     }
 
-    @RequestMapping("/updates")
+    @RequestMapping("/updates/{serverName}")
     @PostMapping
-    public ResponseEntity handleUpdates(@RequestBody Collection<String> packages) {
+    public ResponseEntity handleUpdates(@PathVariable String serverName, @RequestBody Collection<String> packages) {
         if (packages.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        NotificationResult notificationResult = notificationService.sendNotification(packages);
+        NotificationResult notificationResult = notificationService.sendNotification(serverName, packages);
 
         if (notificationResult.isSuccess()) {
             return ResponseEntity.ok().build();
