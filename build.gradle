@@ -15,8 +15,8 @@ apply plugin: 'io.spring.dependency-management'
 group = 'mwvdev.aptpeeker'
 version = '1.0.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
 
 repositories {
     mavenCentral()

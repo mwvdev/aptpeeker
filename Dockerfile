@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:11-jre-alpine
 
 RUN addgroup -g 1000 -S aptpeeker && \
     adduser -u 1000 -S aptpeeker -G aptpeeker
