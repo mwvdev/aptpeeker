@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.1.9.RELEASE')
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.2.0.RELEASE')
     }
 }
 
@@ -29,7 +29,12 @@ dependencies {
 
     runtime('org.springframework.boot:spring-boot-devtools')
 
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        exclude group: 'junit', module: 'junit'
+    }
+    testImplementation('org.apache.httpcomponents:httpclient')
+    testImplementation('org.springframework.security:spring-security-test')
 }
 
 jacocoTestReport {
@@ -39,4 +44,8 @@ jacocoTestReport {
     }
 }
 
-check.dependsOn jacocoTestReport
+test {
+    useJUnitPlatform()
+
+    finalizedBy(jacocoTestReport)
+}

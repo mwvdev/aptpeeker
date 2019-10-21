@@ -4,25 +4,24 @@ import mwvdev.aptpeeker.PackageTestData;
 import mwvdev.aptpeeker.model.NotificationError;
 import mwvdev.aptpeeker.model.NotificationResult;
 import mwvdev.aptpeeker.model.SlackNotification;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@SpringBootTest(classes = SlackNotificationService.class)
 public class SlackNotificationServiceTest {
 
     private NotificationService notificationService;
@@ -33,11 +32,12 @@ public class SlackNotificationServiceTest {
     @MockBean
     private RestTemplate restTemplate;
 
-    private SlackNotificationProperties slackNotificationProperties = new SlackNotificationProperties();
+    @MockBean
+    private SlackNotificationProperties slackNotificationProperties;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        slackNotificationProperties.setEndpoint("https://example.org/");
+        when(slackNotificationProperties.getEndpoint()).thenReturn("https://example.org/");
 
         when(restTemplateBuilder.build()).thenReturn(restTemplate);
 
