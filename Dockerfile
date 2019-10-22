@@ -1,7 +1,7 @@
-FROM openjdk:11-jre-alpine
+FROM openjdk:11-jre-slim
 
-RUN addgroup -g 1000 -S aptpeeker && \
-    adduser -u 1000 -S aptpeeker -G aptpeeker
+RUN addgroup --system --gid 1000 aptpeeker && \
+    adduser --system --uid 1000 --gid 1000 aptpeeker
 USER aptpeeker
 
 VOLUME /tmp
