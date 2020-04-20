@@ -10,10 +10,10 @@ A REST service that can notify Slack when updates to aptitude packages are avail
 # Try it out using Docker
 AptPeeker is available on [Docker Hub](https://hub.docker.com/r/mwvdev/aptpeeker).
 
-Try it out using an in-memory database:
+Try it out:
 
 ``` bash
-$ docker run mwvdev/aptpeeker -e notification.slack.endpoint=<insert slack incoming webhook endpoint>
+$ docker run -e SLACK_ENDPOINT=<insert slack incoming webhook endpoint> mwvdev/aptpeeker
 ```
 
 Ensure that package lists are periodically updated and that `jq` is installed, then use the following command to report to a locally running instance:
