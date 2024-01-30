@@ -22,7 +22,7 @@ public class PackageController {
 
     @RequestMapping("/updates/{serverName}")
     @PostMapping
-    public ResponseEntity handleUpdates(@PathVariable String serverName, @RequestBody Collection<String> packages) {
+    public ResponseEntity handleUpdates(@PathVariable("serverName") String serverName, @RequestBody Collection<String> packages) {
         if (packages.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }

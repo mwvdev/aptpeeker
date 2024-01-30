@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:21-jre
 
 RUN addgroup --system --gid 1000 aptpeeker && \
     adduser --system --uid 1000 --gid 1000 aptpeeker
