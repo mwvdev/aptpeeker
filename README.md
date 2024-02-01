@@ -1,7 +1,6 @@
 # aptpeeker
-[![Build Status](https://travis-ci.org/mwvdev/aptpeeker.svg?branch=master)](https://travis-ci.org/mwvdev/aptpeeker)
+[![Java CI with Gradle](https://github.com/mwvdev/aptpeeker/actions/workflows/gradle.yml/badge.svg)](https://github.com/mwvdev/aptpeeker/actions/workflows/gradle.yml)
 [![codecov](https://codecov.io/gh/mwvdev/aptpeeker/branch/master/graph/badge.svg)](https://codecov.io/gh/mwvdev/aptpeeker)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/mwvdev/aptpeeker.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/mwvdev/aptpeeker/alerts/)
 
 A REST service that can notify Slack when updates to aptitude packages are available.
 
@@ -27,6 +26,6 @@ Ensure that package lists are periodically updated and that `jq` is installed, t
 ``` bash
 $ apt-get upgrade -s | grep ^Inst | awk '{ print $2,$3; }' | tr -d '[]' | jq --compact-output --slurp --raw-input 'split("\n") | map(select(. != ""))' | curl -X POST -u user:<insert password> -H 'Content-type: application/json' --data @- http://localhost:8080/api/package/updates/server-name-goes-here
 ```
-
+ 
 # Credits
 This application is heavily inspired by [AptWatcher](https://github.com/honeybadger-io/aptwatcher) by [Honeybadger](https://www.honeybadger.io). 
