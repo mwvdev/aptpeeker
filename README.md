@@ -1,6 +1,5 @@
 # aptpeeker
 [![Java CI with Gradle](https://github.com/mwvdev/aptpeeker/actions/workflows/gradle.yml/badge.svg)](https://github.com/mwvdev/aptpeeker/actions/workflows/gradle.yml)
-[![codecov](https://codecov.io/gh/mwvdev/aptpeeker/branch/master/graph/badge.svg)](https://codecov.io/gh/mwvdev/aptpeeker)
 
 A REST service that can notify Slack when updates to aptitude packages are available.
 
